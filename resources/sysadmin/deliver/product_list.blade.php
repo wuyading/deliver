@@ -38,6 +38,7 @@
                         <th>单价</th>
                         <th>价税合计</th>
                         <th>备注</th>
+                        <th>添加时间</th>
                         <th>操作</th>
                     </tr>
 
@@ -45,17 +46,18 @@
                         @foreach( $list as $item )
                             <tr>
                                 <td><?=$item['id'] ?></td>
-                                <td><?=$item['sku'] ?></td>
-                                <td><?=$item['name'] ?></td>
-                                <td><?=$item['format'] ?></td>
-                                <td><?=$item['mobile'] ?></td>
-                                <td><?=$item['deliver_addr'] ?></td>
-                                <td><?=$item['sale_user'] ?></td>
-                                <td><?=$item['created_user_id'] ?></td>
+                                <td><?=$item['product']['sku'] ?></td>
+                                <td><?=$item['product_name'] ?></td>
+                                <td><?=$item['product']['format'] ?></td>
+                                <td><?=$item['product']['unit'] ?></td>
+                                <td>总仓</td>
+                                <td><?=$item['num'] ?></td>
+                                <td><?=$item['product_price'] ?></td>
+                                <td><?=$item['total_money'] ?></td>
+                                <td><?=$item['remark'] ?></td>
                                 <td><?=toDate($item['created_at'])?></td>
                                 <td>
-                                    <a href="<?=toRoute('deliver/add?id='.$item['id'])?>" class="btn btn-primary">修改</a>
-                                    <a href="<?=toRoute('deliver/product_list?id='.$item['id'])?>" class="btn btn-primary">明细</a>
+                                    <a href="<?=toRoute('deliver/add_deliver_product/'.$deliver['id'].'/'.$item['id'])?>" class="btn btn-primary">修改</a>
                                     <a class="btn btn-danger" href="javascript:void(0)" onclick="ajaxDelete(<?=$item['id']?>)">删除</a>
                                 </td>
                             </tr>

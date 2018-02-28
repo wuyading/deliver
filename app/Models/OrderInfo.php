@@ -19,4 +19,9 @@ class OrderInfo extends BaseModel
     {
         return $this->hasMany(Order::className(),['order_id'=>'id']);
     }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(),['id'=>'product_id']);
+    }
 }

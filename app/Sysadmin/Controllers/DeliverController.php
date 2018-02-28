@@ -9,6 +9,8 @@
 namespace App\Sysadmin\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderInfo;
+use App\Models\Product;
 use Zilf\Facades\Request;
 
 class DeliverController extends SysadminBaseController
@@ -85,13 +87,69 @@ class DeliverController extends SysadminBaseController
     {
         $id = Request::query()->getInt('id');
         $deliver = Order::findOne($id)->toArray();
-        return $this->render('/deliver/product_list',['deliver'=>$deliver]);
+        $product_list = OrderInfo::find()->joinWith('product')->where(['order_id'=>$id])->asArray()->all();
+        return $this->render('/deliver/product_list',['deliver'=>$deliver,'list'=>$product_list]);
     }
 
     //添加发货单商品
     public function add_deliver_product()
     {
-        return $this->render('/deliver/add_deliver_product');
+        $id = Request::query()->get('zget0');
+        $orderInfoId = Request::query()->get('zget1');
+        $orderInfoId = $orderInfoId?$orderInfoId:'0';
+        $products = Product::find()->joinWith('categorys')->asArray()->all();
+        return $this->render('/deliver/add_deliver_product',[
+            'products'=>$products,
+            'id' => $id,
+            'orderInfoId' => $orderInfoId
+        ]);
+    }
+
+    //保存发货单商品
+    public function ajax_save_deliver_product()
+    {
+        if (Request::isMethod('post')) {
+            $id = Request::request()->get('id');
+            $orderInfoId = Request::request()->get('orderInfoId');
+            //根据发货单id获取发货单信息
+            $deliver = Order::findOne($id)->toArray();
+            $product_id = Request::request()->getInt('product_id');
+            if(!isset($product_id) || $product_id == ''){
+                die('请选择发货单商品！');
+            }else{
+                $product = Product::findOne($product_id)->toArray();
+            }
+            $data['order_id'] = $deliver['id'];
+            $data['order_no'] = $deliver['order_no'];
+            $data['product_id'] = $product_id;
+            $data['product_price'] = $product['sell_price'];
+            $data['num'] = Request::request()->get('product_num');
+            $data['remark'] = Request::request()->get('remark');
+            $total_price = $product['sell_price'] * $data['num'];
+            $data['product_name'] = $product['name'];
+            $data['product_img'] = $product['image'];
+            $data['total_money'] = $total_price;
+            $data['updated_at'] = time();
+            $data['created_user_id'] = $this->userInfo['id'];
+            $is_success = false;
+            if (!empty($orderInfoId)) { //修改内容
+                $orderInfo = OrderInfo::findOne($orderInfoId);
+                if ($orderInfo) {
+                    $orderInfo->setAttributes($data);
+                    $is_success = $orderInfo->update();
+                }
+            } else { //添加内容
+                $data['created_at'] = time();
+                $model = new OrderInfo();
+                $model->setAttributes($data);
+                $is_success = $model->save();
+            }
+            if ($is_success) {
+                $this->redirect('/sysadmin/deliver/product_list?id='.$id);
+            } else {
+                echo 2;die;
+            }
+        }
     }
 
     private function json_callback($data,$parent='parent',$method='show_message'){

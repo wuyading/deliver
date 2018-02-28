@@ -17,6 +17,7 @@ class Product extends BaseModel
 
     public function getCategorys()
     {
-        return $this->hasMany(Category::className(),['id'=>'brand_id']);
+        return $this->hasOne(Category::className(),['id'=>'brand_id']);
     }
+
 }

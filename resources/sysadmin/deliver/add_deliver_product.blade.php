@@ -24,65 +24,50 @@
                         <table class="table">
                             <tbody>
                             <tr>
-                                <th><span style="color: red">*</span>客 &nbsp;&nbsp;&nbsp;&nbsp; 户：</th>
+                                <th><span style="color: red">*</span>选择商品：</th>
                                 <td>
-                                    <input type="text" id="" name="info[customer]" value="{{ $data['customer'] or ''}}" class="form-control" required>
+                                    <select name="product_id" id="product">
+                                        <option value="">请选择商品</option>
+                                        @foreach( $products as $product)
+                                            <option format="{{ $product['format'] }}" price="{{ $product['sell_price'] }}" @if() @endif value="{{ $product['id'] }}">{{ $product['categorys']['name'].'—'.$product['sku'].'—'.$product['name'] }}</option>
+                                        @endforeach
+                                    </select>
                                 </td>
                             </tr>
 
                             <tr>
-                                <th><span style="color: red">*</span>日 &nbsp;&nbsp;&nbsp;&nbsp; 期：</th>
+                                <th>商品规格：</th>
                                 <td>
-                                    <input type="text" id="" name="info[order_date]" value="{{ $data['order_date'] or ''}}" class="form-control" required>
+                                    <input type="text" id="format" readonly class="form-control">
                                 </td>
                             </tr>
 
                             <tr>
-                                <th><span style="color: red">*</span>联 &nbsp;系&nbsp;人：</th>
+                                <th>商品单价：</th>
                                 <td>
-                                    <input type="text" id="" name="info[contact]" value="{{ $data['contact'] or ''}}" class="form-control" required>
+                                    <input type="text" id="price" readonly class="form-control">
                                 </td>
                             </tr>
 
                             <tr>
-                                <th><span style="color: red">*</span>联系电话：</th>
+                                <th><span style="color: red">*</span>商品数量：</th>
                                 <td>
-                                    <input type="text" id="" name="info[mobile]" value="{{ $data['mobile'] or ''}}" class="form-control" required>
+                                    <input type="number" min="0" id="num" name="product_num" value="{{ $product['num'] or ''}}" class="form-control" required>
                                 </td>
                             </tr>
 
                             <tr>
-                                <th>结算方式：</th>
+                                <th>商品备注：</th>
                                 <td>
-                                    <input type="text" id="" name="info[pay_type]" value="{{ $data['pay_type'] or ''}}" class="form-control">
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th><span style="color: red">*</span>送货地址：</th>
-                                <td>
-                                    <input type="text" id="" name="info[deliver_addr]" value="{{ $data['deliver_addr'] or ''}}" class="form-control" required>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th><span style="color: red">*</span>销售人员：</th>
-                                <td>
-                                    <input type="text" id="" name="info[sale_user]"  value="{{ $data['sale_user'] or ''}}" class="form-control" required>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>审 &nbsp;&nbsp;&nbsp;&nbsp; 核：</th>
-                                <td>
-                                    <input type="text" id="" name="info[approver]" value="{{ $data['approver'] or ''}}" class="form-control">
+                                    <input type="text" name="remark" value="{{ $product['num'] or ''}}" class="form-control">
                                 </td>
                             </tr>
 
                             </tbody>
                         </table>
                         <div style="margin-top: 20px;text-align: center;">
-                            <input type="hidden" name="id" value="{{ $data['id'] or '' }}">
+                            <input type="hidden" name="id" value="{{ $id or '' }}">
+                            <input type="hidden" name="orderInfoId" value="{{ $orderInfoId or '' }}">
                             <input type="submit" class="btn btn-primary  btn_save" value="&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;">
                         </div>
                     </form>
@@ -96,4 +81,10 @@
 
 @section('footer_js')
     <?=asset_js('/assets/pages/scripts/dashboard.min.js')?>
+    <script>
+        $("#product").change(function () {
+            $("#price").val($(this).children('option:selected').attr('price'));
+            $("#format").val($(this).children('option:selected').attr('format'));
+        });
+    </script>
 @endsection
