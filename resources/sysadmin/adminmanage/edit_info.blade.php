@@ -25,7 +25,7 @@
                         </tr>
                         <tr>
                             <th>最后登录时间：</th>
-                            <td><input type="text" name="last_time" disabled class="form-control" value="{{ date('Y-m-d H:i;s',$info['last_time']) }}" /></td>
+                            <td><input type="text" name="last_time" disabled class="form-control" value="{{ date('Y-m-d H:i:s',$info['last_time']) }}" /></td>
                         </tr>
                         <tr>
                             <th>最后登录IP：</th>
