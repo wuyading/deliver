@@ -52,7 +52,7 @@
                             <tr>
                                 <th><span style="color: red">*</span>银行卡号：</th>
                                 <td>
-                                    <input type="number" id="" name="info[bank_num]" value="{{ $data['bank_num'] or ''}}" class="form-control" required>
+                                    <input type="number" oninput="if(value.length>19) value=value.slice(0,19)"  id="" name="info[bank_num]" value="{{ $data['bank_num'] or ''}}" class="form-control" required>
                                 </td>
                             </tr>
 

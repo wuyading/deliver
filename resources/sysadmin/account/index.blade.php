@@ -40,13 +40,13 @@
                     @if(isset($list))
                         @foreach( $list as $item )
                             <tr>
-                                <td><?=$item['id'] ?></td>
-                                <td><?=$item['account_name'] ?></td>
-                                <td><?=$item['bank_name'] ?></td>
-                                <td><?=$item['bank_num'] ?></td>
-                                <td><?=$item['alipay'] ?></td>
-                                <td><?=$item['wechat'] ?></td>
-                                <td><?=toDate($item['created_at'])?></td>
+                                <td>{{ $item['id'] }}</td>
+                                <td>{{ $item['account_name'] }}</td>
+                                <td>{{ $item['bank_name'] }}</td>
+                                <td>{{ $item['bank_num'] }}</td>
+                                <td>{{ $item['alipay'] }}</td>
+                                <td>{{ $item['wechat'] }}</td>
+                                <td>{{ toDate($item['created_at']) }}</td>
                                 <td>
                                     <a href="<?=toRoute('account/add?id='.$item['id'])?>" class="btn btn-primary">修改</a>
                                     <a class="btn btn-danger" href="javascript:void(0)" onclick="ajaxDelete(<?=$item['id']?>)">删除</a>
