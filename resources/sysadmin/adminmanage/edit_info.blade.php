@@ -21,7 +21,7 @@
                         <tbody>
                         <tr>
                             <th>用户名：</th>
-                            <td><input type="text" name="username" disabled value="{{ $info['username'] }}"/></td>
+                            <td><input type="text" name="username" class="form-control"  disabled value="{{ $info['username'] }}"/></td>
                         </tr>
                         <tr>
                             <th>最后登录时间：</th>
