@@ -79,6 +79,17 @@
                                 </td>
                             </tr>
 
+                            <tr>
+                                <th>收&nbsp;&nbsp; 款&nbsp;&nbsp; 人:</th>
+                                <td>
+                                    <select name="info[account_id]" id="" class="form-control" required>
+                                        @foreach($accounts as $account)
+                                            <option value="{{ $account['id'] }}">{{ $account['account_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+
                             </tbody>
                         </table>
                         <div style="margin-top: 20px;text-align: center;">

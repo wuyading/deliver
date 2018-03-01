@@ -33,8 +33,8 @@
                         <th>联系人</th>
                         <th>联系电话</th>
                         <th>送货地址</th>
-                        <th>销售人员</th>
                         <th>制单人</th>
+                        <th>收款人</th>
                         <th>添加时间</th>
                         <th>操作</th>
                     </tr>
@@ -48,8 +48,8 @@
                                 <td><?=$item['contact'] ?></td>
                                 <td><?=$item['mobile'] ?></td>
                                 <td><?=$item['deliver_addr'] ?></td>
-                                <td><?=$item['sale_user'] ?></td>
-                                <td><?=$item['created_user_id'] ?></td>
+                                <td><?=$item['userInfo']['username'] ?></td>
+                                <td><?=$item['accountInfo']['account_name'] ?></td>
                                 <td><?=toDate($item['created_at'])?></td>
                                 <td>
                                     <a href="<?=toRoute('deliver/add?id='.$item['id'])?>" class="btn btn-primary">修改</a>

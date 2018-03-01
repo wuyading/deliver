@@ -13,6 +13,8 @@
         <div class="row">
             <div style="margin: 15px ;">
                 <a class="btn btn-danger" href="{{ toRoute('deliver/add_deliver_product',['id'=>$deliver['id']]) }}">添加发货单商品 <i class="fa fa-plus"></i></a>
+                <a class="btn btn-primary" href="{{ toRoute('deliver/detail',['id'=>$deliver['id']]) }}">生成发货单 <i class="fa fa-plus"></i></a>
+
                 {{--<form action="{{ toRoute('deliver/index') }}" class="form-inline" method="get">--}}
                     {{--<div class="form-group">--}}
                         {{--<label class="control-label">发货单编号：</label>--}}
@@ -23,7 +25,7 @@
                 {{--</form>--}}
 
             </div>
-            <div style="font-size: 18px;">订单编号：{{ $deliver['order_no'] }}  &nbsp;&nbsp;客户：{{ $deliver['customer'] }}   &nbsp;&nbsp;联系人：{{ $deliver['contact'] }}   &nbsp;&nbsp;联系电话：{{ $deliver['mobile'] }}</div>
+            <div style="font-size: 18px;">订单编号：{{ $deliver['order_no'] }}  &nbsp;&nbsp;客户：{{ $deliver['customer'] }}   &nbsp;&nbsp;联系人：{{ $deliver['contact'] }}   &nbsp;&nbsp;联系电话：{{ $deliver['mobile'] }}   &nbsp;&nbsp;收款人：{{ $deliver['accountInfo']['account_name'] }}</div>
             <br/>
             <div class="col-md-12 col-sm-12">
                 <table class="table table-hover">
@@ -89,7 +91,7 @@
                 ,area: '200px'
                 ,yes: function(index){
                     layer.close(index);
-                    $.post('<?=toRoute('deliver/ajax_delete')?>',{'id':id},function (res) {
+                    $.post('<?=toRoute('deliver/ajax_delete_product')?>',{'id':id},function (res) {
                         if(res.code == 1001){
                             layer.alert(res.msg, {
                                 icon: 6

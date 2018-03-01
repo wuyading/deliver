@@ -24,4 +24,9 @@ class OrderInfo extends BaseModel
     {
         return $this->hasOne(Product::className(),['id'=>'product_id']);
     }
+
+    public function getAccountInfo()
+    {
+        return $this->hasOne(Account::className(),['id'=>'account_id']);
+    }
 }

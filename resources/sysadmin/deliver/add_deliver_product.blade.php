@@ -29,7 +29,7 @@
                                     <select name="product_id" id="product">
                                         <option value="">请选择商品</option>
                                         @foreach( $products as $product)
-                                            <option format="{{ $product['format'] }}" price="{{ $product['sell_price'] }}" @if() @endif value="{{ $product['id'] }}">{{ $product['categorys']['name'].'—'.$product['sku'].'—'.$product['name'] }}</option>
+                                            <option format="{{ $product['format'] }}" price="{{ $product['sell_price'] }}" @if(isset($orderInfo['product_id']) && $orderInfo['product_id'] == $product['id']) selected @endif value="{{ $product['id'] }}">{{ $product['categorys']['name'].'—'.$product['sku'].'—'.$product['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -38,28 +38,28 @@
                             <tr>
                                 <th>商品规格：</th>
                                 <td>
-                                    <input type="text" id="format" readonly class="form-control">
+                                    <input type="text" id="format" value="{{ $orderInfo['product']['format'] or '' }}" readonly class="form-control">
                                 </td>
                             </tr>
 
                             <tr>
                                 <th>商品单价：</th>
                                 <td>
-                                    <input type="text" id="price" readonly class="form-control">
+                                    <input type="text" id="price" value="{{ $orderInfo['product_price'] or '' }}" readonly class="form-control">
                                 </td>
                             </tr>
 
                             <tr>
                                 <th><span style="color: red">*</span>商品数量：</th>
                                 <td>
-                                    <input type="number" min="0" id="num" name="product_num" value="{{ $product['num'] or ''}}" class="form-control" required>
+                                    <input type="number" min="0" id="num" name="product_num" value="{{ $orderInfo['num'] or ''}}" class="form-control" required>
                                 </td>
                             </tr>
 
                             <tr>
                                 <th>商品备注：</th>
                                 <td>
-                                    <input type="text" name="remark" value="{{ $product['num'] or ''}}" class="form-control">
+                                    <input type="text" name="remark" value="{{ $orderInfo['remark'] or ''}}" class="form-control">
                                 </td>
                             </tr>
 
