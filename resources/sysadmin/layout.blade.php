@@ -6,7 +6,7 @@
 <!--<![endif]-->
     <head>
         <meta charset="utf-8" />
-        <title>应用程序名称 - @yield('title')</title>
+        <title>安诺食品管理系统 @yield('title')</title>
         @section('head')
             @include('/sysadmin/common/head')
         @show

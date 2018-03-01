@@ -1,6 +1,6 @@
 @extends('batch.layout.base')
 
-@section('title','产品中心')
+@section('title','')
 
 @section('css','')
 

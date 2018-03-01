@@ -1,6 +1,6 @@
 @extends('vendor.layout.base')
 
-@section('title','供应商登录')
+@section('title','')
 
 @section('css')
     <?= asset_css('seller/public/js/lib/layer/mobile/need/layer.css') ?>

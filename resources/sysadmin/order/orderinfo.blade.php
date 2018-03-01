@@ -1,6 +1,6 @@
 @extends('sysadmin.layout')
 
-@section('title', '修改个人信息')
+@section('title', '')
 
 @section('plugins_css')
 @endsection

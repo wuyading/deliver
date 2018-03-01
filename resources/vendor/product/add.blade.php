@@ -1,6 +1,6 @@
 @extends('vendor.layout.base')
 
-@section('title','发布商品')
+@section('title','')
 
 @section('css')
     <?=asset_css('seller/css/webuploader.css')?>

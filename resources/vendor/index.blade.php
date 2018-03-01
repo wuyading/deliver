@@ -1,6 +1,6 @@
 @extends('vendor.layout.base')
 
-@section('title','供应商用户中心')
+@section('title','')
 
 @section('css','')
 

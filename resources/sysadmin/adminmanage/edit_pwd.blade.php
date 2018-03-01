@@ -1,6 +1,6 @@
 @extends('sysadmin.layout')
 
-@section('title', '修改密码')
+@section('title', '')
 
 @section('head_css')
     <?=asset_css('/assets/layouts/layout/css/custom.min.css')?>

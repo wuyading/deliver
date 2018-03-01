@@ -1,6 +1,6 @@
 @extends('sysadmin.layout')
 
-@section('title', 'Page Title')
+@section('title', '')
 
 @section('head_css')
     <?=asset_css('/assets/layouts/layout/css/custom.min.css')?>
@@ -31,9 +31,9 @@
 @section('content')
     <div class="page-content">
     @include('/sysadmin/common/crumb')
+        <a style="width:60px;margin-top:5px;float:left;" class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
     <!-- BEGIN PAGE TITLE-->
         <div class="row show_print" style="width:95%;margin-left:5px;background:#ffffff">
-
             <table id="table1" class="col-md-12 col-sm-12" cellspacing="0"  style="border-collapse:collapse;">
                 <tr>
                     <td colspan="12" class="text-center"><h3>安诺食品有限公司</h3><div style=" width:200px;margin:0 auto;border-bottom: 2px solid"></div></td>
@@ -107,6 +107,7 @@
 
         </div>
         <input type="submit" class="btn btn-lg btn-primary btn-print" onclick="window.print()" value="打印发货单">
+
         <!-- END PAGE TITLE-->
     <!-- END PAGE HEADER-->
     <!-- BEGIN DASHBOARD STATS 1-->

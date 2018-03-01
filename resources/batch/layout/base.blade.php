@@ -2,7 +2,7 @@
 <html>
 <head>
     @include('batch/layout/header')
-    <title>七乐乐-@yield('title')</title>
+    <title>-@yield('title')</title>
     @yield('css')
 </head>
 <body @yield('body_class')>

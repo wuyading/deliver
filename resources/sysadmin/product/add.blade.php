@@ -1,6 +1,6 @@
 @extends('sysadmin.layout')
 
-@section('title', 'Page Title')
+@section('title', '')
 
 @section('plugins_css')
     <?=asset_css('/assets/global/plugins/webuploader/webuploader.css')?>

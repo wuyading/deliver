@@ -1,6 +1,6 @@
 @extends('batch.layout.base')
 
-@section('title','批发商登录')
+@section('title','')
 
 @section('css')
     <?= asset_css('seller/public/js/lib/layer/mobile/need/layer.css') ?>
