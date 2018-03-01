@@ -1,19 +1,42 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50553
+Source Server         : 本地
+Source Server Version : 50629
 Source Host           : localhost:3306
 Source Database       : deliver
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50629
 File Encoding         : 65001
 
-Date: 2018-02-13 17:00:44
+Date: 2018-03-01 17:25:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for account
+-- ----------------------------
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `account_name` varchar(255) NOT NULL COMMENT '账户名',
+  `bank_name` varchar(255) NOT NULL COMMENT '银行名称',
+  `bank_num` varchar(50) NOT NULL COMMENT '银行卡号',
+  `alipay` varchar(255) NOT NULL COMMENT '支付宝账号',
+  `wechat` varchar(255) NOT NULL COMMENT '微信号',
+  `created_at` int(11) NOT NULL COMMENT '创建时间',
+  `updated_at` int(11) NOT NULL COMMENT '更新时间',
+  `deleted_at` int(11) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of account
+-- ----------------------------
+INSERT INTO `account` VALUES ('1', '吴亚丁', '建设银行', '6227002001020926852', '863758424@qq.com', 'wuyading1993', '1519818965', '1519895466', null);
+INSERT INTO `account` VALUES ('4', '习大大', '中国银行', '6227002001020926852', '863758424@qq.com', 'wuyading1993', '1519894420', '1519894420', null);
 
 -- ----------------------------
 -- Table structure for category
@@ -95,7 +118,7 @@ CREATE TABLE `menu_category` (
   `link` varchar(325) DEFAULT NULL COMMENT '功能链接',
   `role_id` int(11) DEFAULT '0' COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_category
@@ -115,6 +138,8 @@ INSERT INTO `menu_category` VALUES ('24', '商品列表', 'list', '48', '1', '15
 INSERT INTO `menu_category` VALUES ('48', '商品管理', 'product', '0', '1', '1505886680', '3', '#', '1');
 INSERT INTO `menu_category` VALUES ('78', '发货单管理', '#', '0', '1', '1518490267', '5', '#', '0');
 INSERT INTO `menu_category` VALUES ('79', '发货单列表', '#', '78', '1', '1518490292', '0', 'deliver/index', '0');
+INSERT INTO `menu_category` VALUES ('80', '收款账户管理', '#', '0', '1', '1519810165', '6', '/sysadmin/account', '0');
+INSERT INTO `menu_category` VALUES ('81', '收款账户列表', '/', '80', '1', '1519810703', '0', '/sysadmin/account', '0');
 
 -- ----------------------------
 -- Table structure for order
@@ -122,18 +147,30 @@ INSERT INTO `menu_category` VALUES ('79', '发货单列表', '#', '78', '1', '15
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `order_no` int(11) NOT NULL COMMENT '订单号',
+  `order_no` varchar(50) NOT NULL COMMENT '订单号',
+  `customer` varchar(50) NOT NULL COMMENT '客户',
+  `order_date` varchar(50) NOT NULL COMMENT '订单日期',
+  `contact` varchar(50) NOT NULL COMMENT '联系人',
+  `mobile` varchar(50) NOT NULL COMMENT '电话',
+  `pay_type` varchar(50) NOT NULL COMMENT '结算方式',
+  `deliver_addr` varchar(255) NOT NULL COMMENT '送货地址',
+  `sale_user` varchar(50) NOT NULL COMMENT '销售人员',
+  `created_user_id` int(11) NOT NULL COMMENT '制单人',
+  `approver` varchar(50) NOT NULL COMMENT '审批人',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 待发货 2 已发货',
   `money` decimal(10,2) NOT NULL COMMENT '订单金额',
+  `account_id` int(11) NOT NULL COMMENT '收款账户id',
   `created_at` int(11) NOT NULL COMMENT '创建时间',
   `updated_at` int(11) NOT NULL COMMENT '更新时间',
   `deleted_at` int(11) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order
 -- ----------------------------
+INSERT INTO `order` VALUES ('1', '2147483647', '吴亚丁', '2018', '吴亚丁', '18912640643', '666', '江苏省苏州市广济公寓', '吴亚丁', '1', '666', '1', '0.00', '4', '1519548575', '1519894530', null);
+INSERT INTO `order` VALUES ('2', '201802251720524216', '吴亚丁', '2018-02-25', '吴亚丁', '18912640643', '666', '江苏省苏州市广济公寓', '吴亚丁', '1', '666', '1', '0.00', '1', '1519550452', '1519892045', null);
 
 -- ----------------------------
 -- Table structure for order_info
@@ -144,20 +181,24 @@ CREATE TABLE `order_info` (
   `order_id` int(11) NOT NULL COMMENT '订单id',
   `order_no` int(11) NOT NULL COMMENT '订单号',
   `product_id` int(11) NOT NULL COMMENT '商品id',
+  `product_sku` varchar(50) NOT NULL COMMENT '商品代码',
   `product_name` varchar(255) NOT NULL COMMENT '商品名称',
-  `product_price` decimal(10,2) NOT NULL COMMENT '商品单价',
   `product_img` varchar(255) NOT NULL COMMENT '商品图片',
+  `product_price` decimal(10,2) NOT NULL COMMENT '商品单价',
   `num` int(11) NOT NULL COMMENT '数量',
-  `product_money` decimal(10,2) NOT NULL COMMENT '商品总金额',
+  `total_money` decimal(10,2) NOT NULL COMMENT '商品总金额',
+  `remark` varchar(255) NOT NULL COMMENT '备注',
   `created_at` int(11) NOT NULL COMMENT '创建时间',
   `updated_at` int(11) NOT NULL COMMENT '更新时间',
   `deleted_at` int(11) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of order_info
 -- ----------------------------
+INSERT INTO `order_info` VALUES ('1', '1', '2147483647', '2', 'ML002', '青柠', '/upload/50/8/c23e1c0a72fdf5ab1d603d940b81b0be.jpeg', '70.00', '2', '140.00', '', '1519742467', '1519742467', null);
+INSERT INTO `order_info` VALUES ('2', '1', '2147483647', '1', 'ML001', '红柚', '/upload/77/12/1c819f3e26a3a30c033c677e6a914550.jpeg', '75.00', '5', '375.00', '66', '1519794684', '1519794684', null);
 
 -- ----------------------------
 -- Table structure for product
@@ -180,59 +221,13 @@ CREATE TABLE `product` (
   `updated_at` int(11) NOT NULL COMMENT '最后编辑时间',
   `deleted_at` int(11) NOT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES ('1', '红柚', '/upload/77/12/1c819f3e26a3a30c033c677e6a914550.jpeg', '0.00', '75.00', 'ML001', '', '0', '1', '瓶', '100', '700ml/瓶*6瓶/箱', '1518488982', '1518488982', '0');
-INSERT INTO `product` VALUES ('2', '青柠', '/upload/50/8/c23e1c0a72fdf5ab1d603d940b81b0be.jpeg', '0.00', '75.00', 'ML002', '', '0', '1', '瓶', '100', '700ml/瓶*6瓶/箱', '1518489131', '1518489131', '0');
-
--- ----------------------------
--- Table structure for products
--- ----------------------------
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_name` varchar(255) NOT NULL COMMENT '二手车名称',
-  `image` varchar(255) NOT NULL COMMENT '商品图片',
-  `price` decimal(10,2) NOT NULL COMMENT '价格',
-  `buy_time` int(11) NOT NULL COMMENT '购买时间',
-  `journey` varchar(255) NOT NULL COMMENT '行程',
-  `shop_id` int(11) NOT NULL COMMENT '店铺id',
-  `category_id` int(11) NOT NULL COMMENT '分类id',
-  `created_at` int(11) NOT NULL COMMENT '添加时间',
-  `updated_at` int(11) NOT NULL COMMENT '更新时间',
-  `deleted_at` int(11) DEFAULT NULL COMMENT '删除时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of products
--- ----------------------------
-INSERT INTO `products` VALUES ('1', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '1', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('2', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '1', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('3', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '1', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('4', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '1', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('5', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '1', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('6', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '1', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('7', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '1', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('8', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '4', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('9', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '4', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('10', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '4', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('11', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '4', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('12', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '4', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('13', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '4', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('14', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '4', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('15', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '5', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('16', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '5', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('17', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '5', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('18', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '5', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('19', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '5', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('20', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '5', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('21', '宝马车', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '20.00', '1514338250', '2.5', '5', '71', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('22', '奔驰', '/upload/category/d08f48b04ef37db1b000166fec0f686a.png', '30.00', '1514338250', '2.8', '5', '73', '1514338250', '1514338250', null);
-INSERT INTO `products` VALUES ('23', '红柚', '/upload/89/76/2d6b5dfccf6952fdb658929243b6e10f.jpeg', '0.00', '0', '', '0', '0', '1518488888', '1518488888', null);
+INSERT INTO `product` VALUES ('2', '青柠', '/upload/50/8/c23e1c0a72fdf5ab1d603d940b81b0be.jpeg', '0.00', '70.00', 'ML002', '', '0', '1', '瓶', '100', '700ml/瓶*6瓶/箱', '1518489131', '1518489131', '0');
 
 -- ----------------------------
 -- Table structure for region
@@ -264,7 +259,7 @@ CREATE TABLE `region` (
   `shortname` varchar(32) DEFAULT '' COMMENT '短名称',
   `region_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1100000000005 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=900102 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of region
@@ -7331,7 +7326,7 @@ CREATE TABLE `sysadmin` (
 -- ----------------------------
 -- Records of sysadmin
 -- ----------------------------
-INSERT INTO `sysadmin` VALUES ('1', 'admin', '$2y$10$urgk9c1EZtcU8Io89FLM5eOIaruiV5/LJPqIbTTXDoG3i1/1w4lhO', null, '本拉登', '0000-00-00 00:00:00', '1', '15088299622', '294246302@qq.com', '0', '');
+INSERT INTO `sysadmin` VALUES ('1', 'admin', '$2y$10$urgk9c1EZtcU8Io89FLM5eOIaruiV5/LJPqIbTTXDoG3i1/1w4lhO', null, '本拉登', '0000-00-00 00:00:00', '1', '15088299622', '863758424@qq.com', '0', '');
 
 -- ----------------------------
 -- Table structure for sysadmin_role
@@ -7345,7 +7340,7 @@ CREATE TABLE `sysadmin_role` (
   `sortid` int(11) NOT NULL DEFAULT '1' COMMENT '排序',
   `is_delete` varchar(255) DEFAULT '1' COMMENT '1 正常 2删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sysadmin_role
